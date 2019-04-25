@@ -90,7 +90,7 @@ public class ManagerSessionView {
         AllSession();
         Scanner input = new Scanner(System.in);
         while (true) {
-            System.out.println("请输入你的选择：1、删除所有的场次2、删除个别场次3、删除过期场次0、返回");
+            System.out.println("请输入你的选择：1、删除所有的场次2、删除个别场次0、返回");
             int choice = InputUtil.getInputByInt(input);
             switch (choice) {
                 case 1:
@@ -100,9 +100,6 @@ public class ManagerSessionView {
                     AllSession();
                     System.out.println("请输入你要删除的场次编号：");
                     sessionService.deleteSessionById(InputUtil.getInputByInt(input));
-                    break;
-                case 3:
-                    sessionService.deleteSessionByTime();
                     break;
                 case 0:
                     return;

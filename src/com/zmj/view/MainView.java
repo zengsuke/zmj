@@ -1,7 +1,9 @@
 package com.zmj.view;
 
 import com.zmj.entity.User;
+import com.zmj.service.SessionService;
 import com.zmj.service.UserService;
+import com.zmj.service.serviceImpl.SessionServiceImpl;
 import com.zmj.service.serviceImpl.UserServiceImpl;
 import com.zmj.util.InputUtil;
 
@@ -9,12 +11,15 @@ import java.util.Scanner;
 
 public class MainView {
     private UserService userService;
+    private SessionService sessionService;
     static int id;//记录id
     public MainView() {
         userService=new UserServiceImpl();
+        sessionService=new SessionServiceImpl();
     }
 
     public void MainComing(){
+        sessionService.deleteSessionByTime();
         System.out.println("Welcom!!!!");
         while (true){
             System.out.println("请输入你的选择：");

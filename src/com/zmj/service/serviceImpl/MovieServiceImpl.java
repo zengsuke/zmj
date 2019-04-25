@@ -63,5 +63,10 @@ public class MovieServiceImpl implements MovieService {
             System.out.println("后台增加电影票房数量有误！");
     }
 
+    @Override
+    public List<Movie> findMovieByType(int i) throws Exception {
+        return movieDao.findMovieByType(i);
+    }
+
 
 }

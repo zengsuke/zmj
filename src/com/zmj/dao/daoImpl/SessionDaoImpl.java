@@ -17,7 +17,7 @@ public class SessionDaoImpl implements com.zmj.dao.SessionDao {
 
     @Override
     public boolean insertSession(Session session) {
-        String sql = "insert into dvd_session(movie_id,cinema_id,hall_id,movie_price,begin_time,end_time,seat_number,session_state)values(?,?,?,?,?,?,?)";
+        String sql = "insert into dvd_session(movie_id,cinema_id,hall_id,movie_price,begin_time,end_time,seat_number,session_state)values(?,?,?,?,?,?,?,?)";
         List<Object> list = new ArrayList<>();
         list.add(session.getMovie_id());
         list.add(session.getCinema_id());
@@ -52,7 +52,7 @@ public class SessionDaoImpl implements com.zmj.dao.SessionDao {
     }
 
     @Override
-    public boolean deleteSessionById(int id) {
+    public boolean deleteSessionById(int id) {//删除个别场次，修改状态
         String sql="update dvd_session set session_state=? where session_id=?";
         List<Object> list = new ArrayList<>();
         list.add(1);
@@ -90,7 +90,7 @@ public class SessionDaoImpl implements com.zmj.dao.SessionDao {
     }
 
     @Override
-    public boolean deleteSessionByTime(Date date) {
+    public boolean deleteSessionByTime(Date date) {//删除过期时间
         String sql="update dvd_session set session_state=?  where begin_time<?";
         List<Object> list = new ArrayList<>();
         list.add(1);
@@ -132,5 +132,15 @@ public class SessionDaoImpl implements com.zmj.dao.SessionDao {
             return true;
         }else
             return false;
+    }
+
+    @Override
+    public List<Session> findSessionBymovieid(int mid) throws Exception {
+        String sql="select * from dvd_session where movie_id=? and session_state=?";
+        List<Object> list = new ArrayList<>();
+        list.add(mid);
+        list.add(0);
+        Class<Session> cls=Session.class;
+        return BaseDao.executeQuery(sql,cls,list);
     }
 }

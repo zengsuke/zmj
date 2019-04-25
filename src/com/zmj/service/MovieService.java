@@ -22,4 +22,6 @@ public interface MovieService {
     Movie findMovieById(int mid) throws Exception;//查找
 
     void addTicket(int id);//加票
+
+    List<Movie> findMovieByType(int i) throws Exception;//种类
 }

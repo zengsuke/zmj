@@ -22,4 +22,6 @@ public interface MovieDao {
     Movie findMovieById(int mid) throws Exception;
 
     boolean addTicket(int id);
+
+    List<Movie> findMovieByType(int i) throws Exception;
 }

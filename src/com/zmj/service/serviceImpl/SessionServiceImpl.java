@@ -32,12 +32,8 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void deleteSessionByTime() {
-
-        if(sessionDao.deleteSessionByTime(TimeUtil.getSystemTime())){
-            System.out.println("过期场次处理完成");
-        }else
-            System.out.println("目前没有过期场次！");
+    public boolean deleteSessionByTime() {
+        return sessionDao.deleteSessionByTime(TimeUtil.getSystemTime());
     }
 
     @Override
@@ -59,6 +55,11 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
+    public List<Session> findSessionBymovieid(int mid) throws Exception {
+        return sessionDao.findSessionBymovieid(mid);
+    }
+
+    @Override
     public void insertSession(Session session) {
         if(sessionDao.insertSession(session)){
             System.out.println("添加成功");
@@ -70,8 +71,8 @@ public class SessionServiceImpl implements SessionService {
     public boolean findSessionByExample(Session session) throws Exception {
         if(sessionDao.findSessionByExample(session).size()>0){
             for (Session s:sessionDao.findSessionByExample(session)) {
-                if((TimeUtil.compareTime(s.getBegin_time(),session.getBegin_time())&&TimeUtil.compareTime(s.getBegin_time(),session.getEnd_time()))||(TimeUtil.compareTime(s.getEnd_time(),session.getBegin_time())
-                        &&TimeUtil.compareTime(s.getEnd_time(),session.getEnd_time()))){
+                if((TimeUtil.compareTime(s.getBegin_time(),session.getBegin_time())&&TimeUtil.compareTime(s.getBegin_time(),session.getEnd_time()))
+                        ||(TimeUtil.compareTime(s.getEnd_time(),session.getBegin_time()) &&TimeUtil.compareTime(s.getEnd_time(),session.getEnd_time()))){
                     System.out.println("此场次已存在：");
                     System.out.println(s);
                     return false;//存在就不能添加

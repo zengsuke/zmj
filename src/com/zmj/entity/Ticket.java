@@ -1,5 +1,8 @@
 package com.zmj.entity;
 
+/**
+ * 购票记录
+ */
 public class Ticket {
     private int ticket_id;
     private int session_id;
@@ -81,5 +84,23 @@ public class Ticket {
                 ", ticket_colume=" + ticket_colume +
                 ", ticket_price=" + ticket_price +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Ticket ticket = (Ticket) o;
+
+        if (ticket_line != ticket.ticket_line) return false;
+        return ticket_colume == ticket.ticket_colume;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = ticket_line;
+        result = 31 * result + ticket_colume;
+        return result;
     }
 }

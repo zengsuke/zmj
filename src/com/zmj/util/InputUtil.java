@@ -68,7 +68,6 @@ public class InputUtil {
                 try {
                     list1.add(Integer.valueOf(list[i]));
                 } catch (NumberFormatException e) {
-                    System.out.println("输入格式错误！");
                     input.nextLine();
                 }
             }

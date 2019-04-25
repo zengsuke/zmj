@@ -20,11 +20,13 @@ public interface SessionService {
 
     boolean updateSessionByExample(int id, Double price);//修改
 
-    void deleteSessionByTime();//删除过期场次
+    boolean deleteSessionByTime();//删除过期场次
 
     List<Session> findSessionByIdMid(int cid, int mid) throws Exception;
 
     List<Session> findSeatById(int id) throws Exception;//查找场次通过id
 
     void reduceTicket(int session_id);
+
+    List<Session> findSessionBymovieid(int mid) throws Exception;
 }

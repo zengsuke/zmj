@@ -89,9 +89,23 @@ public class MovieDaoImpl implements MovieDao {
 
     @Override
     public boolean addTicket(int id) {
-        String sql="update dvd_movie set movie_count=movie_count+1 where movie_id=?";
+        String sql="update dvd_movie set movie_count=movie_count+? where movie_id=?";
         List<Object> list=new ArrayList<>();
+        list.add(1);
         list.add(id);
         return BaseDao.excuteUpdate(sql,list);
+    }
+
+    @Override
+    public List<Movie> findMovieByType(int i) throws Exception {
+        String sql="select * from dvd_movie where movie_type=?";
+        List<Object> list=new ArrayList<>();
+        list.add(i);
+        Class<Movie> cls=Movie.class;
+        List<Movie> movies=BaseDao.executeQuery(sql,cls,list);
+        if(movies.size()!=0){
+            return movies;
+        }else
+            return null;
     }
 }

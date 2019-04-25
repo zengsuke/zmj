@@ -1,8 +1,7 @@
 package com.zmj.entity;
 
 /**
- * 场次
- * 每家电影院里的每个电影的场次
+ * 场厅
  */
 public class Hall {
     private int hall_id;//id

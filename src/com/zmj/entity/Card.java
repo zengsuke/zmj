@@ -1,5 +1,8 @@
 package com.zmj.entity;
 
+/**
+ * 影城卡
+ */
 public class Card {
     private int card_id;
     private int user_id;

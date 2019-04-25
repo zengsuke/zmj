@@ -27,4 +27,6 @@ public interface SessionDao {
     List<Session> findSeatById(int id)throws Exception;
 
     boolean reduceTicket(int session_id);
+
+    List<Session> findSessionBymovieid(int mid) throws Exception;
 }

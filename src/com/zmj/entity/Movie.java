@@ -6,7 +6,7 @@ package com.zmj.entity;
 public class Movie {
     private int movie_id;//id
     private String movie_name;//名字
-    private String movie_type;//类型
+    private int movie_type;//类型
     private String movie_introduction;//介绍
     private int movie_time;//时长
     private int movie_count;//购票数量
@@ -14,7 +14,7 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(int movie_id, String movie_name, String movie_type, String movie_introduction, int movie_time, int movie_count) {
+    public Movie(int movie_id, String movie_name, int movie_type, String movie_introduction, int movie_time, int movie_count) {
         this.movie_id = movie_id;
         this.movie_name = movie_name;
         this.movie_type = movie_type;
@@ -39,11 +39,11 @@ public class Movie {
         this.movie_name = movie_name;
     }
 
-    public String getMovie_type() {
+    public int getMovie_type() {
         return movie_type;
     }
 
-    public void setMovie_type(String movie_type) {
+    public void setMovie_type(int movie_type) {
         this.movie_type = movie_type;
     }
 
