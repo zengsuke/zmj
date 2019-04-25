@@ -20,6 +20,44 @@ public class SessionServiceImpl implements SessionService {
         return sessionDao.findAllSession();
     }
 
+
+    @Override
+    public boolean findSessionById(int id) throws Exception {
+        return sessionDao.findSessionById(id);
+    }
+
+    @Override
+    public boolean updateSessionByExample(int id, Double price) {
+        return sessionDao.updateSessionByExample(id,price);
+    }
+
+    @Override
+    public void deleteSessionByTime() {
+
+        if(sessionDao.deleteSessionByTime(TimeUtil.getSystemTime())){
+            System.out.println("过期场次处理完成");
+        }else
+            System.out.println("目前没有过期场次！");
+    }
+
+    @Override
+    public List<Session> findSessionByIdMid(int cid, int mid) throws Exception {
+        return sessionDao.findSessionByIdMid(cid,mid);
+    }
+
+    @Override
+    public List<Session> findSeatById(int id) throws Exception {
+        return sessionDao.findSeatById(id);
+    }
+
+    @Override
+    public void reduceTicket(int session_id) {
+        if(sessionDao.reduceTicket(session_id)){
+            System.out.println();
+        }else
+            System.out.println("购票数量减一失败！");
+    }
+
     @Override
     public void insertSession(Session session) {
         if(sessionDao.insertSession(session)){
@@ -32,7 +70,8 @@ public class SessionServiceImpl implements SessionService {
     public boolean findSessionByExample(Session session) throws Exception {
         if(sessionDao.findSessionByExample(session).size()>0){
             for (Session s:sessionDao.findSessionByExample(session)) {
-                if(TimeUtil.compareTime(s.getBegin_time(),session.getBegin_time())&&TimeUtil.compareTime(session.getBegin_time(),s.getEnd_time())){
+                if((TimeUtil.compareTime(s.getBegin_time(),session.getBegin_time())&&TimeUtil.compareTime(s.getBegin_time(),session.getEnd_time()))||(TimeUtil.compareTime(s.getEnd_time(),session.getBegin_time())
+                        &&TimeUtil.compareTime(s.getEnd_time(),session.getEnd_time()))){
                     System.out.println("此场次已存在：");
                     System.out.println(s);
                     return false;//存在就不能添加
@@ -54,4 +93,13 @@ public class SessionServiceImpl implements SessionService {
         }else
             System.out.println("删除失败");
     }
+
+    @Override
+    public void deleteSessionById(int id) {
+        if(sessionDao.deleteSessionById(id)){
+            System.out.println("删除成功");
+        }else
+            System.out.println("删除失败");
+    }
+
 }

@@ -15,6 +15,7 @@ public class Session {
     private int seat_number;//座位
     private Date begin_time;//开始时间
     private Date end_time;//结束时间
+    private int session_state;//状态
 
     public Session() {
     }
@@ -83,17 +84,25 @@ public class Session {
         this.seat_number = seat_number;
     }
 
+    public int getSession_state() {
+        return session_state;
+    }
+
+    public void setSession_state(int session_state) {
+        this.session_state = session_state;
+    }
+
     @Override
     public String toString() {
-        return "Session{" +
-                "session_id=" + session_id +
-                ", movie_id=" + movie_id +
-                ", cinema_id=" + cinema_id +
-                ", hall_id=" + hall_id +
-                ", movie_price=" + movie_price +
-                ", seat_number=" + seat_number +
-                ", begin_time=" + begin_time +
-                ", end_time=" + end_time +
-                '}';
+        return "场次{" +
+                "场次id=" + session_id +
+                ", 电影id=" + movie_id +
+                ", 电影院id=" + cinema_id +
+                ", 场厅id=" + hall_id +
+                ", 票价=" + movie_price +
+                ", 座位数量=" + seat_number +
+                ", 开始时间=" + begin_time +
+                ", 结束时间=" + end_time +
+                ",状态="+session_state+"(0为未过期，1为过期)}";
     }
 }

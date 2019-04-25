@@ -36,4 +36,20 @@ public class CinemaServiceImpl implements CinemaService {
     public boolean deleteCinemaByNameAddress(Cinema cinema) {
         return cinemaDao.deleteCinemaByNameAddress(cinema);
     }
+
+    @Override
+    public void updateCinemaNById(int id, String name) {
+        if(cinemaDao.updateName(id,name)){
+            System.out.println("修改成功");
+        }else
+            System.out.println("修改失败！");
+    }
+
+    @Override
+    public void updateCinemaAById(int id, String address) {
+        if(cinemaDao.updateAddress(id,address)){
+            System.out.println("修改成功");
+        }else
+            System.out.println("修改失败！");
+    }
 }

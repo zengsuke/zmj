@@ -9,16 +9,18 @@ public class Movie {
     private String movie_type;//类型
     private String movie_introduction;//介绍
     private int movie_time;//时长
+    private int movie_count;//购票数量
 
     public Movie() {
     }
 
-    public Movie(int movie_id, String movie_name, String movie_type, String movie_introduction, int movie_time) {
+    public Movie(int movie_id, String movie_name, String movie_type, String movie_introduction, int movie_time, int movie_count) {
         this.movie_id = movie_id;
         this.movie_name = movie_name;
         this.movie_type = movie_type;
         this.movie_introduction = movie_introduction;
         this.movie_time = movie_time;
+        this.movie_count = movie_count;
     }
 
     public int getMovie_id() {
@@ -61,12 +63,21 @@ public class Movie {
         this.movie_time = movie_time;
     }
 
+    public int getMovie_count() {
+        return movie_count;
+    }
+
+    public void setMovie_count(int movie_count) {
+        this.movie_count = movie_count;
+    }
+
     @Override
     public String toString() {
         return "电影编号：" + movie_id +
                 ", 电影名称：" + movie_name +
                 ", 电影类型：" + movie_type +
                 ", 电影介绍：" + movie_introduction +
-                ", 电影时长：" + movie_time;
+                ", 电影时长：" + movie_time+
+                ",电影购票数量："+movie_count;
     }
 }

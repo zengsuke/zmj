@@ -6,4 +6,6 @@ public interface UserService {
     public boolean login(User user) throws Exception;//登陆
     public boolean insert(User user) throws Exception;//注册
     public int choiceType(int id) throws Exception;
+
+    boolean updatePwd(int manager_id,String pwd);//修改
 }

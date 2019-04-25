@@ -2,14 +2,29 @@ package com.zmj.dao;
 
 import com.zmj.entity.Session;
 
+import java.util.Date;
 import java.util.List;
 
 public interface SessionDao {
-    public List<Session> findAllSession();//查询所有
+    List<Session> findAllSession();//查询所有
 
-    public boolean insertSession(Session session);//添加
+    boolean insertSession(Session session);//添加
 
-    public List<Session> findSessionByExample(Session session) throws Exception;//查找
+    List<Session> findSessionByExample(Session session) throws Exception;//查找
 
-    public boolean deleteAll();//删除所有
+    boolean deleteAll();//删除所有
+
+    boolean deleteSessionById(int id);//删除个别场次
+
+    boolean findSessionById(int id) throws Exception;//查找个别
+
+    boolean updateSessionByExample(int id, Double price);//修改
+
+    boolean deleteSessionByTime(Date date);
+
+    List<Session> findSessionByIdMid(int cid, int mid) throws Exception;
+
+    List<Session> findSeatById(int id)throws Exception;
+
+    boolean reduceTicket(int session_id);
 }

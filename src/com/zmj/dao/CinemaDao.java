@@ -5,9 +5,13 @@ import com.zmj.entity.Cinema;
 import java.util.List;
 
 public interface CinemaDao {
-    public List<Cinema> findAllCinema() throws Exception;//查询所有
-    public Cinema findCinemaById(Cinema cinema) throws Exception;//通过id查找
-    public Cinema findCinemaByName(String name) throws Exception;//通过name查找
-    public boolean insertCinema(Cinema cinema);//添加
-    public boolean deleteCinemaByNameAddress(Cinema cinema);//删除
+    List<Cinema> findAllCinema() throws Exception;//查询所有
+    Cinema findCinemaById(Cinema cinema) throws Exception;//通过id查找
+    Cinema findCinemaByName(String name) throws Exception;//通过name查找
+    boolean insertCinema(Cinema cinema);//添加
+    boolean deleteCinemaByNameAddress(Cinema cinema);//删除
+
+    boolean updateName(int id, String name);
+
+    boolean updateAddress(int id, String address);
 }

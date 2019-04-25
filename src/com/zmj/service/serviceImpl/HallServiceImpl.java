@@ -20,8 +20,8 @@ public class HallServiceImpl implements HallService {
     }
 
     @Override
-    public List<Hall> findHallByExample(int cid, int hid) throws Exception {
-        return hallDao.findHallByExample(cid,hid);
+    public List<Hall> findHallById(int hid) throws Exception {
+        return hallDao.findHallById(hid);
     }
 
     @Override
@@ -30,7 +30,17 @@ public class HallServiceImpl implements HallService {
     }
 
     @Override
-    public boolean deleteHallByExample(Hall hall) {
-        return hallDao.deleteHallByExample(hall);
+    public boolean deleteHallById(int id) {
+        return hallDao.deleteHallById(id);
+    }
+
+    @Override
+    public List<Hall> findHallByCid(int cid) throws Exception {
+        return hallDao.findHallByCid(cid);
+    }
+
+    @Override
+    public List<Hall> findHallByCN(int cid, String hn) throws Exception {
+        return hallDao.findHallByCN(cid,hn);
     }
 }

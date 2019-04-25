@@ -1,24 +1,30 @@
 package com.zmj.view;
 
 import com.zmj.entity.Movie;
+import com.zmj.entity.Session;
 import com.zmj.service.MovieService;
+import com.zmj.service.SessionService;
 import com.zmj.service.serviceImpl.MovieServiceImpl;
+import com.zmj.service.serviceImpl.SessionServiceImpl;
 import com.zmj.util.InputUtil;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class ManagerMovieView {
     private MovieService movieService;
+    private SessionService sessionService;
 
     public ManagerMovieView() {
         movieService=new MovieServiceImpl();
+        sessionService = new SessionServiceImpl();
     }
 
     public void ManagerMovieCome(){
         System.out.println("欢迎管理员来到电影浏览界面");
         Scanner input=new Scanner(System.in);
         while (true){
-            System.out.println("1、添加电影2、删除电影3、修改电影4、查找所有0、返回");
+            System.out.println("1、添加电影2、删除电影3、修改电影4、查找所有 5、查看各个电影收益0、返回");
             System.out.println("请输入你的选择：");
             int choice= InputUtil.getInputByInt(input);
             switch (choice){
@@ -33,6 +39,9 @@ public class ManagerMovieView {
                     break;
                 case 4:
                     findAllMovie();
+                    break;
+                case 5:
+                    FindAllSession();
                     break;
                 case 0:
                     return;
@@ -52,6 +61,24 @@ public class ManagerMovieView {
             }
         }else
             System.out.println("目前没电影可看！");
+
+    }
+
+    private void FindAllSession() {
+        List<Session> sessions=sessionService.findAllSession();
+        if(sessions.size()>0){
+            for (int j = 0; j <sessions.size(); j++) {
+                try {
+                    Session session=sessions.get(j);
+                    Movie movie =movieService.findMovieById(session.getMovie_id());
+                    System.out.println("电影："+movie.getMovie_name()+"，票价："+session.getMovie_price()+
+                            ",购票数量："+movie.getMovie_count()+",总额："+movie.getMovie_count()*session.getMovie_price());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }else
+            System.out.println("目前没有电影收益！");
 
     }
 
@@ -76,14 +103,16 @@ public class ManagerMovieView {
                             }else
                                 System.out.println("修改失败！");
                             break;
-                        case 2:System.out.println("请输入修改后的介绍：");
+                        case 2:
+                            System.out.println("请输入修改后的介绍：");
                             String introduction=InputUtil.getInputByString(input);
                             if(movieService.updateMovieByIntroduction(introduction,name)){
                                 System.out.println("修改成功");
                             }else
                                 System.out.println("修改失败！");
                             break;
-                        case 3:System.out.println("请输入修改后的时长：");
+                        case 3:
+                            System.out.println("请输入修改后的时长：");
                             int time=InputUtil.getInputByInt(input);
                             if(movieService.updateMovieByTime(time,name)){
                                 System.out.println("修改成功");

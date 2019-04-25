@@ -31,4 +31,9 @@ public class UserServiceImpl implements UserService {
     public int choiceType(int id) throws Exception {
         return userDao.findUserById(id).getUser_type();
     }
+
+    @Override
+    public boolean updatePwd(int manager_id,String pwd) {
+        return userDao.updatePwd(manager_id,pwd);
+    }
 }

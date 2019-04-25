@@ -5,17 +5,21 @@ import com.zmj.entity.Movie;
 import java.util.List;
 
 public interface MovieDao {
-    public List<Movie> findAll();//查找所有
+    List<Movie> findAll();//查找所有
 
-    public Movie findMovieByName(String name) throws Exception;
+    Movie findMovieByName(String name) throws Exception;
 
-    public boolean insertMovie(Movie movie);
+    boolean insertMovie(Movie movie);
 
-    public boolean deleteMovie(String name);
+    boolean deleteMovie(String name);
 
-    public boolean updateMovieByType(String type,String name);
+    boolean updateMovieByType(String type,String name);
 
-    public boolean updateMovieByIntroduction(String introduction,String name);
+    boolean updateMovieByIntroduction(String introduction,String name);
 
-    public boolean updateMovieByTime(int time,String name);
+    boolean updateMovieByTime(int time,String name);
+
+    Movie findMovieById(int mid) throws Exception;
+
+    boolean addTicket(int id);
 }

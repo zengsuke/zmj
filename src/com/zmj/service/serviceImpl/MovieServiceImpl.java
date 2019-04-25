@@ -50,5 +50,18 @@ public class MovieServiceImpl implements MovieService {
         return movieDao.updateMovieByTime(time,name);
     }
 
+    @Override
+    public Movie findMovieById(int mid) throws Exception {
+        return movieDao.findMovieById(mid);
+    }
+
+    @Override
+    public void addTicket(int id) {
+        if(movieDao.addTicket(id)){
+            System.out.println("");
+        }else
+            System.out.println("后台增加电影票房数量有误！");
+    }
+
 
 }

@@ -1,8 +1,14 @@
 package com.zmj.view;
 
 import com.zmj.entity.Cinema;
+import com.zmj.entity.Movie;
+import com.zmj.entity.Session;
 import com.zmj.service.CinemaService;
+import com.zmj.service.MovieService;
+import com.zmj.service.SessionService;
 import com.zmj.service.serviceImpl.CinemaServiceImpl;
+import com.zmj.service.serviceImpl.MovieServiceImpl;
+import com.zmj.service.serviceImpl.SessionServiceImpl;
 import com.zmj.util.InputUtil;
 
 import java.util.List;
@@ -10,6 +16,7 @@ import java.util.Scanner;
 
 public class ManagerCinemaView {
     private CinemaService cinemaService;
+
     private int manager_id=MainView.id;
     private int i=-1;
 
@@ -32,7 +39,7 @@ public class ManagerCinemaView {
                     ManagerDeleteCinema();
                     break;
                 case 3:
-                    //ManagerUpdateCinema();
+                    ManagerUpdateCinema();
                     break;
                 case 4:
                     ManagerFindAll();
@@ -43,6 +50,45 @@ public class ManagerCinemaView {
                     System.out.println("输入有误请重新输入！");
                     break;
             }
+        }
+    }
+
+
+
+    private void ManagerUpdateCinema() {
+        System.out.println("请输入要修改的电影院编号：");
+        Scanner input=new Scanner(System.in);
+        int id=InputUtil.getInputByInt(input);
+        Cinema cinema=new Cinema();
+        cinema.setCinema_id(id);
+        try {
+            if(cinemaService.findCinemaById(cinema)!=null){
+                while (true){
+                    System.out.println("请输入你想修改的内容：1、电影院名字 2、地址 0、返回");
+                    int choice=InputUtil.getInputByInt(input);
+                    switch (choice){
+                        case 1:
+                            System.out.println("请输入修改后的名字：");
+                            String name=InputUtil.getInputByString(input);
+                            cinemaService.updateCinemaNById(id,name);
+                            break;
+                        case 2:
+                            System.out.println("请输入修改后的地址：");
+                            String address=InputUtil.getInputByString(input);
+                            cinemaService.updateCinemaAById(id,address);
+                            break;
+                        case 0:
+                            return;
+                        default:
+                            break;
+
+                    }
+                }
+            }else
+                System.out.println("没有此电影相关内容！");
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

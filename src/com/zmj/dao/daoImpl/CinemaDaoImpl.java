@@ -58,4 +58,22 @@ public class CinemaDaoImpl implements CinemaDao {
         list.add(cinema.getCinema_address());
         return BaseDao.excuteUpdate(sql,list);
     }
+
+    @Override
+    public boolean updateName(int id, String name) {
+        String sql="update dvd_cinema set cinema_name=? where cinema_id=?";
+        List<Object> list=new ArrayList<>();
+        list.add(name);
+        list.add(id);
+        return BaseDao.excuteUpdate(sql,list);
+    }
+
+    @Override
+    public boolean updateAddress(int id, String address) {
+        String sql="update dvd_cinema set cinema_address=? where cinema_id=?";
+        List<Object> list=new ArrayList<>();
+        list.add(address);
+        list.add(id);
+        return BaseDao.excuteUpdate(sql,list);
+    }
 }

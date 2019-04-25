@@ -4,8 +4,10 @@ public class Ticket {
     private int ticket_id;
     private int session_id;
     private int user_id;
-    private double ticket_type;
-    private int seat_number;
+    private int ticket_type;//0，普通，1，有卡的
+    private int ticket_line;//行
+    private int ticket_colume;//列
+    private double ticket_price;//价格
 
     public Ticket() {
     }
@@ -34,20 +36,38 @@ public class Ticket {
         this.user_id = user_id;
     }
 
-    public double getTicket_type() {
+    public int getTicket_type() {
         return ticket_type;
     }
 
-    public void setTicket_type(double ticket_type) {
+    public void setTicket_type(int ticket_type) {
         this.ticket_type = ticket_type;
     }
 
-    public int getSeat_number() {
-        return seat_number;
+
+
+    public double getTicket_price() {
+        return ticket_price;
     }
 
-    public void setSeat_number(int seat_number) {
-        this.seat_number = seat_number;
+    public void setTicket_price(double ticket_price) {
+        this.ticket_price = ticket_price;
+    }
+
+    public int getTicket_line() {
+        return ticket_line;
+    }
+
+    public void setTicket_line(int ticket_line) {
+        this.ticket_line = ticket_line;
+    }
+
+    public int getTicket_colume() {
+        return ticket_colume;
+    }
+
+    public void setTicket_colume(int ticket_colume) {
+        this.ticket_colume = ticket_colume;
     }
 
     @Override
@@ -57,7 +77,9 @@ public class Ticket {
                 ", session_id=" + session_id +
                 ", user_id=" + user_id +
                 ", ticket_type=" + ticket_type +
-                ", seat_number=" + seat_number +
+                ", ticket_line=" + ticket_line +
+                ", ticket_colume=" + ticket_colume +
+                ", ticket_price=" + ticket_price +
                 '}';
     }
 }

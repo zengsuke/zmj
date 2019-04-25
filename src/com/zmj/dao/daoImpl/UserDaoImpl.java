@@ -57,4 +57,16 @@ public class UserDaoImpl implements UserDao {
         }else
             return null;
     }
+
+    @Override
+    public boolean updatePwd(int id,String pwd) {
+        String sql="update dvd_user set user_pwd=? where user_id=?";
+        List<Object> list=new ArrayList<>();
+        list.add(pwd);
+        list.add(id);
+        if(BaseDao.excuteUpdate(sql,list)){
+            return true;
+        }else
+            return false;
+    }
 }

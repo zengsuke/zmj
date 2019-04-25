@@ -19,10 +19,9 @@ public class HallDaoImpl implements com.zmj.dao.HallDao {
     }
 
     @Override
-    public List<Hall> findHallByExample(int cid, int hid) throws Exception {
-        String sql="select * from dvd_hall where cinema_id=? and hall_number=?";
+    public List<Hall> findHallById(int hid) throws Exception {
+        String sql="select * from dvd_hall where hall_id=?";
         List<Object> list=new ArrayList<>();
-        list.add(cid);
         list.add(hid);
         Class<Hall> cls=Hall.class;
         List<Hall> halls=BaseDao.executeQuery(sql,cls,list);
@@ -40,11 +39,30 @@ public class HallDaoImpl implements com.zmj.dao.HallDao {
     }
 
     @Override
-    public boolean deleteHallByExample(Hall hall) {
-        String sql="delete from dvd_hall where hall_number=? and cinema_id=?";
+    public boolean deleteHallById(int hid) {
+        String sql="delete from dvd_hall where hall_id=?";
         List<Object> list=new ArrayList<>();
-        list.add(hall.getHall_number());
-        list.add(hall.getCinema_id());
+        list.add(hid);
         return BaseDao.excuteUpdate(sql,list);
+    }
+
+    @Override
+    public List<Hall> findHallByCid(int cid) throws Exception {
+        String sql="select * from dvd_hall where cinema_id=?";
+        List<Object> list=new ArrayList<>();
+        list.add(cid);
+        Class<Hall> cls=Hall.class;
+        return BaseDao.executeQuery(sql,cls,list);
+    }
+
+    @Override
+    public List<Hall> findHallByCN(int cid, String hn) throws Exception {
+        String sql="select * from dvd_hall where cinema_id=? and hall_number=?";
+        List<Object> list=new ArrayList<>();
+        list.add(cid);
+        list.add(hn);
+        Class<Hall> cls=Hall.class;
+        List<Hall> halls=BaseDao.executeQuery(sql,cls,list);
+        return halls;
     }
 }

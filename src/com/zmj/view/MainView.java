@@ -66,9 +66,9 @@ public class MainView {
             if(userService.choiceType(id)==0){
                 ManagerView managerView=new ManagerView();
                 managerView.ManagerWelcom();
-            }else if(userService.choiceType(id)==1){
-                CinemaView cinemaView=new CinemaView();
-                cinemaView.CinemaCome();
+            }else if(userService.choiceType(id)!=0){
+                CustomerView cinemaView=new CustomerView();
+                cinemaView.CustomerWelcom();
             }else {
                 System.out.println("出现内部错误！");
             }

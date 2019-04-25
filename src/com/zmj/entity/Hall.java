@@ -6,14 +6,14 @@ package com.zmj.entity;
  */
 public class Hall {
     private int hall_id;//id
-    private int hall_number;//场厅
+    private String hall_number;//场厅
     private int cinema_id;//电影院
     private int hall_seat;//座位数量
 
     public Hall() {
     }
 
-    public Hall(int hall_id, int hall_number, int cinema_id,int hall_seat) {
+    public Hall(int hall_id, String hall_number, int cinema_id,int hall_seat) {
         this.hall_id = hall_id;
         this.hall_number = hall_number;
         this.cinema_id = cinema_id;
@@ -28,11 +28,11 @@ public class Hall {
         this.hall_id = hall_id;
     }
 
-    public int getHall_number() {
+    public String getHall_number() {
         return hall_number;
     }
 
-    public void setHall_number(int hall_number) {
+    public void setHall_number(String hall_number) {
         this.hall_number = hall_number;
     }
 
@@ -54,11 +54,11 @@ public class Hall {
 
     @Override
     public String toString() {
-        return "Hall{" +
+        return "场厅{" +
                 "hall_id=" + hall_id +
-                ", hall_number=" + hall_number +
-                ", cinema_id=" + cinema_id +
-                ", hall_seat=" + hall_seat +
+                ", 场厅名称=" + hall_number +
+                ", 电影院编号=" + cinema_id +
+                ", 座位数量=" + hall_seat +
                 '}';
     }
 }

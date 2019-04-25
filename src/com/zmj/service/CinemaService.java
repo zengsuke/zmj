@@ -9,4 +9,7 @@ public interface CinemaService {
     public boolean findCinemaByName(Cinema cinema) throws Exception;//查重
     public boolean addCinema(Cinema cinema);//添加
     public boolean deleteCinemaByNameAddress(Cinema cinema);//删除
+
+    public void updateCinemaNById(int id, String name);
+    public void updateCinemaAById(int id, String address);
 }
