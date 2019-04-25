@@ -52,7 +52,6 @@ public class CustomerView {
                     customerCommentView.commentWelcome(user_id);
                     break;
                 case 0:
-                    user_id = 0;//设置为空
                     return;
                 default:
                     System.out.println("输入有误，请重新输入！");
