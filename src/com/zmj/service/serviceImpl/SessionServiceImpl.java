@@ -71,8 +71,7 @@ public class SessionServiceImpl implements SessionService {
     public boolean findSessionByExample(Session session) throws Exception {
         if(sessionDao.findSessionByExample(session).size()>0){
             for (Session s:sessionDao.findSessionByExample(session)) {
-                if((TimeUtil.compareTime(s.getBegin_time(),session.getBegin_time())&&TimeUtil.compareTime(s.getBegin_time(),session.getEnd_time()))
-                        ||(TimeUtil.compareTime(s.getEnd_time(),session.getBegin_time()) &&TimeUtil.compareTime(s.getEnd_time(),session.getEnd_time()))){
+                if((TimeUtil.compareTime(s.getBegin_time(),session.getEnd_time()))||(TimeUtil.compareTime(s.getEnd_time(),session.getBegin_time()))){
                     System.out.println("此场次已存在：");
                     System.out.println(s);
                     return false;//存在就不能添加
