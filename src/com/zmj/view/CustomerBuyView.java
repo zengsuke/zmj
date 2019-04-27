@@ -111,9 +111,14 @@ public class CustomerBuyView {
     private boolean findSession(int mid) {//查找到场次
         try {
             if(sessionService.findSessionBymovieid(mid).size()>0){
-                System.out.println("现有场次：");
+                System.out.println("现有电影院在播放的有：");
                 for (Session s:sessionService.findSessionBymovieid(mid)) {
-                    System.out.println(s);
+                    String movie_name=movieService.findMovieById(s.getMovie_id()).getMovie_name();
+                    Cinema cinema=new Cinema();
+                    cinema.setCinema_id(s.getCinema_id());
+                    String cinema_name=cinemaService.findCinemaById(cinema).getCinema_name();
+                    System.out.println("【电影名="+movie_name+", 电影院id="+s.getCinema_id()+",电影院名="+cinema_name
+                            +", 场厅id="+s.getHall_id()+", 票价="+s.getMovie_price()+"】");
                 }
                 return true;
             }else{
