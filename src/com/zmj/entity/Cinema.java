@@ -43,8 +43,8 @@ public class Cinema {
 
     @Override
     public String toString() {
-        return "电影院编号：" + cinema_id +
+        return "【电影院编号：" + cinema_id +
                 ",电影院名字：" + cinema_name +
-                ",电影院地址：" + cinema_address;
+                ",电影院地址：" + cinema_address+"】";
     }
 }

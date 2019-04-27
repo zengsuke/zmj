@@ -53,11 +53,11 @@ public class Comment {
 
     @Override
     public String toString() {
-        return "影评{" +
+        return "影评【" +
                 "影评id=" + comment_id +
                 ", 用户id=" + user_id +
                 ", 电影id=" + movie_id +
                 ", 影评内容='" + comment_content + '\'' +
-                '}';
+                '】';
     }
 }

@@ -46,11 +46,11 @@ public class BoxOffice {
 
     @Override
     public String toString() {
-        return "票房{" +
+        return "【票房:" +
                 "票房id=" + office_id +
                 ", 电影id=" + movie_id +
                 ", 卖出票数=" + movie_count +
                 ", 收益价=" + movie_money +
-                '}';
+                '】';
     }
 }

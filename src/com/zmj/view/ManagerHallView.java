@@ -71,30 +71,36 @@ public class ManagerHallView {
     private void insertHall() {
         Scanner input = new Scanner(System.in);
         try {
-            System.out.println("请输入你所在的影院编号：");
-            int cid = InputUtil.getInputByInt(input);
-            Cinema cinema = new Cinema();
-            cinema.setCinema_id(cid);
-            if (cinemaService.findCinemaById(cinema) == null) {
-                System.out.println("此电影院不存在！请重新输入！");
-            } else {
-                System.out.println("请输入你要添加影厅的编号：");
-                String hn = InputUtil.getInputByString(input);
-                if (hallService.findHallByCN(cid, hn).size() > 0) {
-                    System.out.println("此电影院存在这个影厅，请重新输入！");
-                } else {
-                    System.out.println("请输入该影厅座位数量：");
-                    int seat = InputUtil.getInputByInt(input);
-                    Hall hall = new Hall();
-                    hall.setCinema_id(cid);
-                    hall.setHall_number(hn);
-                    hall.setHall_seat(seat);
-                    if (hallService.addHall(hall)) {
-                        System.out.println("添加成功！");
-                    } else
-                        System.out.println("添加失败！");
+            if (cinemaService.allCinema().size() > 0) {
+                for (Cinema c:cinemaService.allCinema()) {
+                    System.out.println(c);
                 }
-            }
+                System.out.println("请输入你所在的影院编号：");
+                int cid = InputUtil.getInputByInt(input);
+                Cinema cinema = new Cinema();
+                cinema.setCinema_id(cid);
+                if (cinemaService.findCinemaById(cinema) == null) {
+                    System.out.println("此电影院不存在！请重新输入！");
+                } else {
+                    System.out.println("请输入你要添加影厅的名称：");
+                    String hn = InputUtil.getInputByString(input);
+                    if (hallService.findHallByCN(cid, hn).size() > 0) {
+                        System.out.println("此电影院存在这个影厅，请重新输入！");
+                    } else {
+                        System.out.println("请输入该影厅座位数量：");
+                        int seat = InputUtil.getInputByInt(input);
+                        Hall hall = new Hall();
+                        hall.setCinema_id(cid);
+                        hall.setHall_number(hn);
+                        hall.setHall_seat(seat);
+                        if (hallService.addHall(hall)) {
+                            System.out.println("添加成功！");
+                        } else
+                            System.out.println("添加失败！");
+                    }
+                }
+            } else
+                System.out.println("你还没有影院！");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -70,7 +70,7 @@ public class CustomerCommentView {
 
     }
 
-    private void findComment() {
+    private void findComment() {//查找到评论
         try {
             managerMovieView.findAllMovie();
             Scanner input=new Scanner(System.in);

@@ -32,9 +32,8 @@ public class SessionDaoImpl implements com.zmj.dao.SessionDao {
 
     @Override
     public List<Session> findSessionByExample(Session session) throws Exception {
-        String sql = "select * from dvd_session where movie_id=? and cinema_id=? and hall_id=? and session_state=?";
+        String sql = "select * from dvd_session where cinema_id=? and hall_id=? and session_state=?";
         List<Object> list = new ArrayList<>();
-        list.add(session.getMovie_id());
         list.add(session.getCinema_id());
         list.add(session.getHall_id());
         list.add(0);

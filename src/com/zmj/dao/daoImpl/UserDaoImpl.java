@@ -69,4 +69,11 @@ public class UserDaoImpl implements UserDao {
         }else
             return false;
     }
+
+    @Override
+    public List<User> findAll() {
+        String sql="select * from dvd_user where not user_type=0";
+        Class<User> cls=User.class;
+        return BaseDao.executeAll(sql,cls);
+    }
 }

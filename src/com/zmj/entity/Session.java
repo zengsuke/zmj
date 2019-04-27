@@ -94,7 +94,7 @@ public class Session {
 
     @Override
     public String toString() {
-        return "场次{" +
+        return "场次【" +
                 "场次id=" + session_id +
                 ", 电影id=" + movie_id +
                 ", 电影院id=" + cinema_id +
@@ -103,6 +103,6 @@ public class Session {
                 ", 座位数量=" + seat_number +
                 ", 开始时间=" + begin_time +
                 ", 结束时间=" + end_time +
-                ",状态="+session_state+"(0为未过期，1为过期)}";
+                "】";
     }
 }

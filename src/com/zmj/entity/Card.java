@@ -43,10 +43,10 @@ public class Card {
 
     @Override
     public String toString() {
-        return "电影卡{" +
+        return "【电影卡:" +
                 "卡号=" + card_id +
                 ", 用户编号=" + user_id +
                 ", 所剩金额=" + user_money +
-                '}';
+                '】';
     }
 }

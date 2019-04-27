@@ -37,7 +37,7 @@ public class CustomerBuyView {
             int choice = InputUtil.getInputByInt(input);
             switch (choice) {
                 case 1:
-                    choiceMovie();
+                    choiceMovie();//选择电影
                     break;
                 case 2:
                     hotMovie();//前三
@@ -54,7 +54,7 @@ public class CustomerBuyView {
         }
     }
 
-    private void guessMovie() {
+    private void guessMovie() {//猜你喜欢，根据ticket_type与movie_type进行匹配
         try {
             List<Ticket> tickets=ticketService.findTicketByUid(user_id);
             int[] type=new int[tickets.size()];
@@ -62,11 +62,15 @@ public class CustomerBuyView {
                 type[i]=tickets.get(i).getTicket_type();
             }
             Random random=new Random();
-            int i=random.nextInt(type.length);//随机抽取种类
-            List<Movie> movies=movieService.findMovieByType(type[i]);
-            System.out.println("可能喜欢的电影类型：");
-            for (Movie m :movies) {
-                System.out.println(m);
+            if(type.length !=0) {
+                int i = random.nextInt(type.length);//随机抽取种类
+                List<Movie> movies = movieService.findMovieByType(type[i]);
+                System.out.println("可能喜欢的电影类型：");
+                for (Movie m : movies) {
+                    System.out.println(m);
+                }
+            }else {
+                System.out.println("您还未购票，无法推荐~");
             }
 
         } catch (Exception e) {
@@ -74,7 +78,7 @@ public class CustomerBuyView {
         }
     }
 
-    private void choiceMovie() {
+    private void choiceMovie() {//选择电影
         AllMovie();
         System.out.println("请输入你想要去看的电影编号：");//movie
         Scanner input = new Scanner(System.in);
@@ -104,7 +108,7 @@ public class CustomerBuyView {
         }
     }
 
-    private boolean findSession(int mid) {
+    private boolean findSession(int mid) {//查找到场次
         try {
             if(sessionService.findSessionBymovieid(mid).size()>0){
                 System.out.println("现有场次：");
@@ -178,8 +182,14 @@ public class CustomerBuyView {
                     return o2.getMovie_count() - o1.getMovie_count();//降序
                 }
             });
-            for (int i = 0; i < 3; i++) {
-                System.out.println(movies.get(i).toString());
+            if (movies.size()<=3){
+                for (int i = 0; i <movies.size(); i++) {
+                    System.out.println(movies.get(i).toString());
+                }
+            }else {
+                for (int i = 0; i <3; i++) {
+                    System.out.println(movies.get(i).toString());
+                }
             }
         } else
             System.out.println("目前没有电影！");

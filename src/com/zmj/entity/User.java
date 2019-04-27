@@ -52,11 +52,11 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "user_id=" + user_id +
-                ", user_name='" + user_name + '\'' +
-                ", user_type=" + user_type +
-                ", user_pwd='" + user_pwd +
-                '}';
+        return "用户【" +
+                "用户id=" + user_id +
+                ", 用户姓名='" + user_name + '\'' +
+                ", 用户类型=" + user_type +
+                ", 用户密码='" + user_pwd +
+                '】';
     }
 }

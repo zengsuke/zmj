@@ -14,16 +14,18 @@ public class CustomerView {
     private CustomerCommentView customerCommentView;
     private CardService cardService;
     private TicketService ticketService;
+    private UserService userService;
 
     public CustomerView() {
         customerBuyView = new CustomerBuyView();
         cardService = new CardServiceImpl();
         ticketService = new TicketServiceImpl();
         customerCommentView = new CustomerCommentView();
+        userService= new UserServiceImpl();
     }
 
     public void CustomerWelcom() {//进入电影院
-        System.out.println("欢迎进入购票界面");
+        findUsername();
         Scanner input = new Scanner(System.in);
         while (true) {
             System.out.println("请输入你的选择：");
@@ -60,7 +62,7 @@ public class CustomerView {
         }
     }
 
-    private void findTicketById(int user_id) {
+    private void findTicketById(int user_id) {//查票
         try {
             if (ticketService.findTicketByUid(user_id).size() > 0) {
                 for (Ticket t : ticketService.findTicketByUid(user_id)) {
@@ -73,7 +75,7 @@ public class CustomerView {
         }
     }
 
-    private void insertmoney() {
+    private void insertmoney() {//充值
         try {
             if (cardService.findCardById(user_id).size() > 0) {
                 System.out.println("请输入充值金额：");
@@ -93,7 +95,7 @@ public class CustomerView {
         }
     }
 
-    private void findCard(int user_id) {
+    private void findCard(int user_id) {//查卡
         try {
             if (cardService.findCardById(user_id).size() > 0) {
                 System.out.println(cardService.findCardById(user_id).get(0));
@@ -104,8 +106,7 @@ public class CustomerView {
         }
     }
 
-    private void buyCard() {
-
+    private void buyCard() {//买卡
         try {
             if (cardService.findCardById(user_id).size() > 0) {
                 System.out.println("此账号已有电影卡！");
@@ -126,8 +127,7 @@ public class CustomerView {
         }
     }
 
-    private void updatepwd() {
-        UserService userService = new UserServiceImpl();
+    private void updatepwd() {//修改密码
         System.out.println("请输入你要修改的密码：");
         Scanner input = new Scanner(System.in);
         String pwd = InputUtil.getInputByString(input);
@@ -137,5 +137,12 @@ public class CustomerView {
             System.out.println("修改失败！");
     }
 
-
+    private void findUsername(){//欢迎
+        try {
+            String name=userService.findUsername(user_id);
+            System.out.println("**********************欢迎"+name+"进入购票界面**********************");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

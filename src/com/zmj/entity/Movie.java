@@ -73,11 +73,11 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "电影编号：" + movie_id +
-                ", 电影名称：" + movie_name +
-                ", 电影类型：" + movie_type +
-                ", 电影介绍：" + movie_introduction +
-                ", 电影时长：" + movie_time+
-                ",电影购票数量："+movie_count;
+        return "【电影编号：" + movie_id +
+                "\n 电影名称：" + movie_name +
+                "\n 电影类型：" + movie_type +
+                "\n 电影介绍：" + movie_introduction +
+                "\n 电影时长：" + movie_time+
+                "(min)\n 电影购票数量："+movie_count+"】\n";
     }
 }

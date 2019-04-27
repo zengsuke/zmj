@@ -5,6 +5,8 @@ import com.zmj.dao.daoImpl.UserDaoImpl;
 import com.zmj.entity.User;
 import com.zmj.service.UserService;
 
+import java.util.List;
+
 public class UserServiceImpl implements UserService {
     UserDao userDao=new UserDaoImpl();
     @Override
@@ -35,5 +37,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updatePwd(int manager_id,String pwd) {
         return userDao.updatePwd(manager_id,pwd);
+    }
+
+    @Override
+    public List<User> findAllUser() {
+        return userDao.findAll();
+    }
+
+    @Override
+    public String findUsername(int id) throws Exception {
+        return userDao.findUserById(id).getUser_name();
     }
 }

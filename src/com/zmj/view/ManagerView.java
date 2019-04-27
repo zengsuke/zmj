@@ -1,5 +1,6 @@
 package com.zmj.view;
 
+import com.zmj.entity.User;
 import com.zmj.service.UserService;
 import com.zmj.service.serviceImpl.UserServiceImpl;
 import com.zmj.util.InputUtil;
@@ -8,12 +9,17 @@ import java.util.Scanner;
 
 public class ManagerView {
     private int manager_id=MainView.id;
+    private UserService userService;
+    public ManagerView() {
+        userService=new UserServiceImpl();
+    }
+
     public void ManagerWelcom(){
-        System.out.println("欢迎来到管理员系统");
+        findUsername();
         Scanner input=new Scanner(System.in);
         while (true){
             System.out.println("您有如下选择：");
-            System.out.println("1、操作电影2、操作电影院3、操作场厅4、操作场次5、修改管理员密码0、返回");
+            System.out.println("1、操作电影2、操作电影院3、操作场厅4、操作场次5、修改管理员密码6、查看所有用户0、返回");
             int choice= InputUtil.getInputByInt(input);
             switch (choice){
                 case 1:
@@ -35,6 +41,9 @@ public class ManagerView {
                 case 5:
                     updatepwd();
                     break;
+                case 6:
+                    findAllUser();
+                    break;
                 case 0:
                     return;
                 default:
@@ -44,8 +53,16 @@ public class ManagerView {
         }
     }
 
+    private void findAllUser() {
+        if(userService.findAllUser().size()>0){
+            for (User u:userService.findAllUser()) {
+                System.out.println(u);
+            }
+        }else
+            System.out.println("目前还未有任何用户注册！");
+    }
+
     private void updatepwd() {
-        UserService userService=new UserServiceImpl();
         System.out.println("请输入你要修改的密码：");
         Scanner input=new Scanner(System.in);
         String pwd=InputUtil.getInputByString(input);
@@ -53,5 +70,15 @@ public class ManagerView {
             System.out.println("修改成功");
         }else
             System.out.println("修改失败！");
+    }
+
+
+    private void findUsername(){//欢迎
+        try {
+            String name=userService.findUsername(manager_id);
+            System.out.println("**********************欢迎"+name+"进入管理员系统**********************");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

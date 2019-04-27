@@ -75,15 +75,15 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return "Ticket{" +
-                "ticket_id=" + ticket_id +
-                ", session_id=" + session_id +
-                ", user_id=" + user_id +
-                ", ticket_type=" + ticket_type +
-                ", ticket_line=" + ticket_line +
-                ", ticket_colume=" + ticket_colume +
-                ", ticket_price=" + ticket_price +
-                '}';
+        return "电影票【" +
+                "电影票id=" + ticket_id +
+                ", 场次id=" + session_id +
+                ", 用户id=" + user_id +
+                ", 票型=" + ticket_type +
+                ", 位置=" + (ticket_line+1) +
+                "排" + (ticket_colume+1) +
+                "号, 票价=" + ticket_price +
+                '】';
     }
 
     @Override
