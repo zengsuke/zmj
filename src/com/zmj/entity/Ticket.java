@@ -82,8 +82,7 @@ public class Ticket {
                 ", 票型=" + ticket_type +
                 ", 位置=" + (ticket_line+1) +
                 "排" + (ticket_colume+1) +
-                "号, 票价=" + ticket_price +
-                '】';
+                "号, 票价=" + ticket_price ;
     }
 
     @Override

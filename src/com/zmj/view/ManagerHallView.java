@@ -87,16 +87,19 @@ public class ManagerHallView {
                     if (hallService.findHallByCN(cid, hn).size() > 0) {
                         System.out.println("此电影院存在这个影厅，请重新输入！");
                     } else {
-                        System.out.println("请输入该影厅座位数量：");
+                        System.out.println("请输入该影厅座位数量：(不得少于10个座位！)");
                         int seat = InputUtil.getInputByInt(input);
-                        Hall hall = new Hall();
-                        hall.setCinema_id(cid);
-                        hall.setHall_number(hn);
-                        hall.setHall_seat(seat);
-                        if (hallService.addHall(hall)) {
-                            System.out.println("添加成功！");
-                        } else
-                            System.out.println("添加失败！");
+                        if(seat>=10){
+                            Hall hall = new Hall();
+                            hall.setCinema_id(cid);
+                            hall.setHall_number(hn);
+                            hall.setHall_seat(seat);
+                            if (hallService.addHall(hall)) {
+                                System.out.println("添加成功！");
+                            } else
+                                System.out.println("添加失败！");
+                        }else
+                            System.out.println("数量过少！");
                     }
                 }
             } else

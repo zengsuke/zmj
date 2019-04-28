@@ -15,62 +15,69 @@ public class CustomerTiketView {
     private HallService hallService;
     private CardService cardService;
     private BoxOfficeService boxOfficeService;
+    private int lottery_id;
     private int[][] number;
     private List<Ticket> tickets;
     private int user_id = MainView.id;
 
-    public CustomerTiketView() {
+    public CustomerTiketView(int lottery_id) {
         sessionService = new SessionServiceImpl();
         ticketService = new TicketServiceImpl();
         movieService = new MovieServiceImpl();
         hallService = new HallServiceImpl();
         cardService = new CardServiceImpl();
         boxOfficeService = new BoxOfficeServiceImpl();
+        this.lottery_id=lottery_id;
     }
 
     public void TicketCome(int sid) {
         allSeat(sid);
-        System.out.println("请选择座位：");
-        List<Integer> list = InputUtil.getTrueSeat();//获取正确位置格式
-        Ticket ticket = new Ticket();
-        ticket.setTicket_line(list.get(0) - 1);
-        ticket.setTicket_colume(list.get(1) - 1);
-        if (0 <= ticket.getTicket_line() && ticket.getTicket_line() < number.length
-                && 0 <= ticket.getTicket_colume() && ticket.getTicket_colume() < number[ticket.getTicket_line()].length) {
-            if (compareTicket(ticket)) {
-                System.out.println("已售位置，不可再被购买！");
+        try {
+            if (sessionService.findSeatById(sid).get(0).getSeat_number() <= 0) {
+                System.out.println("售空！");
             } else {
-                try {
-                    List<Session> sessions = sessionService.findSeatById(sid);
-                    int type = movieService.findMovieById(sessions.get(0).getMovie_id()).getMovie_type();
-                    double price = sessions.get(0).getMovie_price();
-                    ticket.setTicket_type(type);
-                    ticket.setTicket_price(price);
-                    ticket.setSession_id(sid);
-                    ticket.setUser_id(user_id);
-                    payType(ticket);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                while (true) {
+                    System.out.println("请选择座位：");
+                    List<Integer> list = InputUtil.getTrueSeat();//获取正确位置格式
+                    Ticket ticket = new Ticket();
+                    ticket.setTicket_line(list.get(0) - 1);
+                    ticket.setTicket_colume(list.get(1) - 1);
+                    if (0 <= ticket.getTicket_line() && ticket.getTicket_line() < number.length
+                            && 0 <= ticket.getTicket_colume() && ticket.getTicket_colume() < number[ticket.getTicket_line()].length) {
+                        if (compareTicket(ticket)) {
+                            System.out.println("已售位置，不可再被购买！");
+                        } else {
+                            List<Session> sessions = sessionService.findSeatById(sid);
+                            int type = movieService.findMovieById(sessions.get(0).getMovie_id()).getMovie_type();
+                            double price = sessions.get(0).getMovie_price();
+                            ticket.setTicket_type(type);
+                            ticket.setTicket_price(price);
+                            ticket.setSession_id(sid);
+                            ticket.setUser_id(user_id);
+                            payType(ticket);
+                            break;
+                        }
+                    } else
+                        System.out.println("您输入的位置超出原有位置！");
                 }
-
             }
-        } else
-            System.out.println("您输入的位置超出原有位置！");
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void payType(Ticket ticket) {
-        while (true){
+        while (true) {
             System.out.println("请选择你所要支付的方式：");
             System.out.println("1、支付宝 2、影城卡(6折)0、返回");
             Scanner input = new Scanner(System.in);
             int choice = InputUtil.getInputByInt(input);
             switch (choice) {
                 case 1:
-                    payBymoney(ticket);
+                    pay(ticket,1);
                     return;
                 case 2:
-                    payByCard(ticket);
+                    pay(ticket,0);
                     return;
                 case 0:
                     return;
@@ -81,6 +88,74 @@ public class CustomerTiketView {
         }
     }
 
+    private void pay(Ticket ticket,int i){
+        try {
+            if(i==0){
+                if (cardService.findCardById(user_id).size() > 0) {
+                    Card card = cardService.findCardById(user_id).get(0);
+                    Session session = sessionService.findSeatById(ticket.getSession_id()).get(0);
+                    double price=0;
+                    if(lottery_id==1){
+                        price=0;//免单
+                    }else {
+                        price = session.getMovie_price() * 0.6;
+                    }
+                    if (card.getUser_money() - price > 0) {
+                        ticketService.addTicket(ticket);
+                        System.out.println("此次消费：" + price + "元");
+                        lottery_id=0;
+                        movieService.addTicket(session.getMovie_id());
+                        sessionService.reduceTicket(ticket.getSession_id());
+                        cardService.reduceCardById(price, user_id);
+                        Movie movie = movieService.findMovieById(session.getMovie_id());
+                        if (boxOfficeService.findOfficeByMid(movie.getMovie_id())) {//查找效益中是否有此电影
+                            if (boxOfficeService.updateOffice(movie.getMovie_id(), 1, session.getMovie_price())) {
+                                System.out.println();
+                            } else
+                                System.out.println("后台系统出错，为将价格加入效益表中！");
+                        } else {//没有就进行添加
+                            if (boxOfficeService.insertOffice(movie.getMovie_id(), 1, session.getMovie_price())) {
+                                System.out.println();
+                            } else
+                                System.out.println("后台系统出错，为将此次效益加入效益表中！");
+                        }
+
+                    } else
+                        System.out.println("余额不足！");
+
+                } else
+                    System.out.println("此账户没有办理影城卡");
+            }else {
+                ticketService.addTicket(ticket);
+                Session session = sessionService.findSeatById(ticket.getSession_id()).get(0);
+                double price=0;
+                if(lottery_id==1){
+                    price=0;//免单
+                }else {
+                    price = session.getMovie_price() * 0.6;
+                }
+                System.out.println("此次消费：" + price + "元");
+                lottery_id=0;
+                movieService.addTicket(session.getMovie_id());
+                sessionService.reduceTicket(ticket.getSession_id());
+                Movie movie = movieService.findMovieById(session.getMovie_id());
+                if (boxOfficeService.findOfficeByMid(session.getMovie_id())) {//查找效益中是否有此电影
+                    if (boxOfficeService.updateOffice(session.getMovie_id(), 1, session.getMovie_price())) {
+                        System.out.println();
+                    } else
+                        System.out.println("后台系统出错，为将价格加入效益表中！");
+                } else {//没有就进行添加
+                    if (boxOfficeService.insertOffice(movie.getMovie_id(), 1, session.getMovie_price())) {
+                        System.out.println();
+                    } else
+                        System.out.println("后台系统出错，为将此次效益加入效益表中！");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     private void payByCard(Ticket ticket) {
         try {
             if (cardService.findCardById(user_id).size() > 0) {
@@ -111,6 +186,7 @@ public class CustomerTiketView {
 
             } else
                 System.out.println("此账户没有办理影城卡");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -164,12 +240,12 @@ public class CustomerTiketView {
             tickets = ticketService.findTicketBySid(sid);
             Map<Integer, Ticket> seat = new HashMap<Integer, Ticket>();//用hashmap存储
             for (int i = 0; i < tickets.size(); i++) {
-                seat.put(i,tickets.get(i));
+                seat.put(i, tickets.get(i));
             }
             for (int i = 0; i < 10; i++) {//行
                 for (int j = 0; j < number[i].length; j++) {//列
                     if (tickets.size() > 0) {//是否被购买了
-                        Ticket ticket=new Ticket();
+                        Ticket ticket = new Ticket();
                         ticket.setTicket_line(i);
                         ticket.setTicket_colume(j);
                         if (seat.containsValue(ticket)) {//比较是否存在，在类中重写equals hashcode方法

@@ -12,4 +12,6 @@ public interface UserService {
     boolean updatePwd(int manager_id,String pwd);//修改
     List<User> findAllUser();
     String findUsername(int id) throws Exception;
+
+    User finduserById(int user_id) throws Exception;
 }

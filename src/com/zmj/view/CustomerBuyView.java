@@ -20,19 +20,27 @@ public class CustomerBuyView {
     private SessionService sessionService;
     private CustomerTiketView customerTiketView;
     private TicketService ticketService;
+    private int lottery_id=0;
+
+    public int getLottery_id() {
+        return lottery_id;
+    }
+
+    public void setLottery_id(int lottery_id) {
+        this.lottery_id = lottery_id;
+    }
+
     public CustomerBuyView() {
         cinemaService = new CinemaServiceImpl();
         movieService = new MovieServiceImpl();
         sessionService = new SessionServiceImpl();
-        customerTiketView=new CustomerTiketView();
         ticketService=new TicketServiceImpl();
     }
-
 
     public void buy() {
         while (true) {
             System.out.println("请输入你的选择：");
-            System.out.println("1、选择电影2、查看热门电影3、推荐电影0、返回");
+            System.out.println("1、选择电影2、查看热门电影3、推荐电影4、抽奖免单0、返回");
             Scanner input = new Scanner(System.in);
             int choice = InputUtil.getInputByInt(input);
             switch (choice) {
@@ -45,11 +53,30 @@ public class CustomerBuyView {
                 case 3:
                     guessMovie();//种类
                     break;
+                case 4:
+                    lottery();//抽免单
+                    break;
                 case 0:
                     return;
                 default:
                     System.out.println("输入有误，请重新输入！");
                     break;
+            }
+        }
+    }
+
+    private void lottery() {
+        if(lottery_id==1){
+            System.out.println("您已中过一次奖，下次光临~！");
+        }else {
+            Random random=new Random();
+            int i=random.nextInt(10);
+            if(i==5){
+                System.out.println("恭喜你抽取到一次免单机会!");
+                setLottery_id(1);//抽中
+            }else{
+                System.out.println("您未抽中，谢谢光临。");
+                setLottery_id(0);//未抽中
             }
         }
     }
@@ -143,6 +170,7 @@ public class CustomerBuyView {
                 Scanner input=new Scanner(System.in);
                 int sid=InputUtil.getInputByInt(input);
                 if(sessionService.findSessionById(sid)){
+                    customerTiketView=new CustomerTiketView(lottery_id);
                     customerTiketView.TicketCome(sid);
                 }else
                     System.out.println("此场次相关内容不存在！");
@@ -153,7 +181,7 @@ public class CustomerBuyView {
         }
     }
 
-    public void AllCinema() {
+    public void AllCinema() {//所有影院
         try {
             if (cinemaService.allCinema().size() > 0) {
                 System.out.println("电影院有：");

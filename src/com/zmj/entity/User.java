@@ -54,9 +54,8 @@ public class User {
     public String toString() {
         return "用户【" +
                 "用户id=" + user_id +
-                ", 用户姓名='" + user_name + '\'' +
-                ", 用户类型=" + user_type +
-                ", 用户密码='" + user_pwd +
+                ", 用户姓名=" + user_name +
+                ", 用户密码=" + user_pwd +
                 '】';
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 public class SessionDaoImpl implements com.zmj.dao.SessionDao {
     @Override
     public List<Session> findAllSession() {
-        String sql = "select * from dvd_session";
+        String sql = "select * from dvd_session where session_state=0";
         Class<Session> cls = Session.class;
         return BaseDao.executeAll(sql, cls);
     }
@@ -141,5 +141,14 @@ public class SessionDaoImpl implements com.zmj.dao.SessionDao {
         list.add(0);
         Class<Session> cls=Session.class;
         return BaseDao.executeQuery(sql,cls,list);
+    }
+
+    @Override
+    public Session findSessionById1(int session_id) throws Exception {
+        String sql="select * from dvd_session where session_id=?";
+        List<Object> list = new ArrayList<>();
+        list.add(session_id);
+        Class<Session> cls=Session.class;
+        return BaseDao.executeQuery(sql,cls,list).get(0);
     }
 }

@@ -48,4 +48,9 @@ public class UserServiceImpl implements UserService {
     public String findUsername(int id) throws Exception {
         return userDao.findUserById(id).getUser_name();
     }
+
+    @Override
+    public User finduserById(int user_id) throws Exception {
+        return userDao.findUserById(user_id);
+    }
 }

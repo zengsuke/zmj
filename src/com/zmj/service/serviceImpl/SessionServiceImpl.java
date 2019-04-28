@@ -60,6 +60,11 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
+    public Session findSessionById1(int session_id) throws Exception {
+        return sessionDao.findSessionById1(session_id);
+    }
+
+    @Override
     public void insertSession(Session session) {
         if(sessionDao.insertSession(session)){
             System.out.println("添加成功");
