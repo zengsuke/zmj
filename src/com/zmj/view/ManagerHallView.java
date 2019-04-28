@@ -50,6 +50,9 @@ public class ManagerHallView {
 
     }
 
+    /**
+     * 删除场厅
+     */
     private void deleteHall() {
         Scanner input = new Scanner(System.in);
         try {
@@ -68,6 +71,9 @@ public class ManagerHallView {
         }
     }
 
+    /**
+     * 添加场厅
+     */
     private void insertHall() {
         Scanner input = new Scanner(System.in);
         try {

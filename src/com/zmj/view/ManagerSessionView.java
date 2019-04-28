@@ -63,6 +63,9 @@ public class ManagerSessionView {
 
     }
 
+    /**
+     * 修改场次信息，只能改价格
+     */
     private void updateSession() {
         AllSession();
         Scanner input = new Scanner(System.in);
@@ -86,6 +89,9 @@ public class ManagerSessionView {
         }
     }
 
+    /**
+     * 删除场次
+     */
     private void deleteSession() {
         AllSession();
         Scanner input = new Scanner(System.in);
@@ -111,6 +117,9 @@ public class ManagerSessionView {
         }
     }
 
+    /**
+     * 添加场次
+     */
     private void addSession() {
         ManagerCinemaView managerCinemaView = new ManagerCinemaView();
         managerCinemaView.ManagerFindAll();
@@ -169,7 +178,12 @@ public class ManagerSessionView {
         }
     }
 
-    public boolean findSessionByExample(Session session) {//查找是否存在此场次
+    /**
+     * //查找是否存在此场次
+     * @param session
+     * @return
+     */
+    public boolean findSessionByExample(Session session) {
         boolean result = false;//不能安排
         try {
             result = sessionService.findSessionByExample(session);//可以安排则为true
@@ -179,8 +193,10 @@ public class ManagerSessionView {
         return result;
     }
 
-
-    public void AllSession() {//查找所有场次
+    /**
+     * //查找所有场次
+     */
+    public void AllSession() {
         if (sessionService.findAllSession().size() > 0) {
             for (Session s : sessionService.findAllSession()) {
                 System.out.println(s);

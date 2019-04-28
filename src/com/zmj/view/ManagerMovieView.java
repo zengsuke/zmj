@@ -58,7 +58,10 @@ public class ManagerMovieView {
 
     }
 
-    public void findAllMovie() {//查找所有
+    /**
+     * //查找所有
+     */
+    public void findAllMovie() {
         if (movieService.findAll().size() > 0) {
             System.out.println("目前有的电影：");
             for (Movie m : movieService.findAll()) {
@@ -69,6 +72,9 @@ public class ManagerMovieView {
 
     }
 
+    /**
+     * 查询票房
+     */
     private void FindAllBox() {
         try {
             if (boxOfficeService.findAllOffice().size() > 0) {
@@ -83,7 +89,10 @@ public class ManagerMovieView {
 
     }
 
-    public void updateMovie() {//修改电影信息
+    /**
+     * //修改电影信息
+     */
+    public void updateMovie() {
         Scanner input = new Scanner(System.in);
         findAllMovie();
         System.out.println("请输入你要修改的电影：");
@@ -134,6 +143,9 @@ public class ManagerMovieView {
         }
     }
 
+    /**
+     * 删除电影
+     */
     public void deleteMovie() {
         findAllMovie();
         Scanner input = new Scanner(System.in);
@@ -165,7 +177,9 @@ public class ManagerMovieView {
         }
     }
 
-
+    /**
+     * 添加电影
+     */
     public void insertMovie() {
         Scanner input = new Scanner(System.in);
         System.out.println("请输入你要添加电影的名字：");

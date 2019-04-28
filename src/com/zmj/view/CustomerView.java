@@ -9,6 +9,10 @@ import com.zmj.util.InputUtil;
 
 import java.util.Scanner;
 
+/**
+ *
+ * 顾客主界面
+ */
 public class CustomerView {
     private int user_id = MainView.id;
     private CustomerBuyView customerBuyView;
@@ -27,7 +31,10 @@ public class CustomerView {
         sessionService = new SessionServiceImpl();
     }
 
-    public void CustomerWelcom() {//进入电影院
+    /**
+     * 进入电影院
+     */
+    public void CustomerWelcom() {
         findUsername();
         Scanner input = new Scanner(System.in);
         while (true) {
@@ -68,6 +75,9 @@ public class CustomerView {
         }
     }
 
+    /**
+     * 个人信息
+     */
     private void information() {
         try {
             if (userService.finduserById(user_id) != null) {
@@ -79,7 +89,11 @@ public class CustomerView {
         }
     }
 
-    private void findTicketById(int user_id) {//查票
+    /**
+     * 查票
+     * @param user_id
+     */
+    private void findTicketById(int user_id) {
         try {
             if (ticketService.findTicketByUid(user_id).size() > 0) {
                 for (Ticket t : ticketService.findTicketByUid(user_id)) {
@@ -93,7 +107,10 @@ public class CustomerView {
         }
     }
 
-    private void insertmoney() {//充值
+    /**
+     * 充值
+     */
+    private void insertmoney() {
         try {
             if (cardService.findCardById(user_id).size() > 0) {
                 System.out.println("请输入充值金额：");
@@ -113,7 +130,11 @@ public class CustomerView {
         }
     }
 
-    private void findCard(int user_id) {//查卡
+    /**
+     * 查卡
+     * @param user_id
+     */
+    private void findCard(int user_id) {
         try {
             if (cardService.findCardById(user_id).size() > 0) {
                 System.out.println(cardService.findCardById(user_id).get(0));
@@ -124,7 +145,10 @@ public class CustomerView {
         }
     }
 
-    private void buyCard() {//买卡
+    /**
+     * 买卡
+     */
+    private void buyCard() {
         try {
             if (cardService.findCardById(user_id).size() > 0) {
                 System.out.println("此账号已有电影卡！");
@@ -145,7 +169,10 @@ public class CustomerView {
         }
     }
 
-    private void updatepwd() {//修改密码
+    /**
+     * 修改密码
+     */
+    private void updatepwd() {
         System.out.println("请输入你要修改的密码：");
         Scanner input = new Scanner(System.in);
         String pwd = InputUtil.getInputByString(input);
@@ -155,7 +182,10 @@ public class CustomerView {
             System.out.println("修改失败！");
     }
 
-    private void findUsername() {//欢迎
+    /**
+     * 欢迎界面
+     */
+    private void findUsername() {
         try {
             String name = userService.findUsername(user_id);
             System.out.println("**********************欢迎" + name + "进入购票界面**********************");

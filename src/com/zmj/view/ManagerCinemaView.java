@@ -1,17 +1,9 @@
 package com.zmj.view;
 
 import com.zmj.entity.Cinema;
-import com.zmj.entity.Movie;
-import com.zmj.entity.Session;
 import com.zmj.service.CinemaService;
-import com.zmj.service.MovieService;
-import com.zmj.service.SessionService;
 import com.zmj.service.serviceImpl.CinemaServiceImpl;
-import com.zmj.service.serviceImpl.MovieServiceImpl;
-import com.zmj.service.serviceImpl.SessionServiceImpl;
 import com.zmj.util.InputUtil;
-
-import java.util.List;
 import java.util.Scanner;
 
 public class ManagerCinemaView {
@@ -54,7 +46,9 @@ public class ManagerCinemaView {
     }
 
 
-
+    /**
+     * 修改影院
+     */
     private void ManagerUpdateCinema() {
         System.out.println("请输入要修改的电影院编号：");
         Scanner input=new Scanner(System.in);
@@ -92,6 +86,9 @@ public class ManagerCinemaView {
         }
     }
 
+    /**
+     * 查询所有影院
+     */
     public void ManagerFindAll() {
         try {
             if(cinemaService.allCinema().size()>0){
@@ -105,6 +102,9 @@ public class ManagerCinemaView {
         }
     }
 
+    /**
+     * 删除影院
+     */
     public void ManagerDeleteCinema() {
             try {
                 System.out.println("请输入电影院名字：");
@@ -126,6 +126,9 @@ public class ManagerCinemaView {
             }
     }
 
+    /**
+     * 添加影院
+     */
     public void ManagerInsertCinema(){
         try {
             System.out.println("请输入电影院名字：");

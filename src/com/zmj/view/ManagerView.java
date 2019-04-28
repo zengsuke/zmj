@@ -53,6 +53,9 @@ public class ManagerView {
         }
     }
 
+    /**
+     * 查询所有用户
+     */
     private void findAllUser() {
         if(userService.findAllUser().size()>0){
             for (User u:userService.findAllUser()) {
@@ -62,6 +65,9 @@ public class ManagerView {
             System.out.println("目前还未有任何用户注册！");
     }
 
+    /**
+     * 修改密码
+     */
     private void updatepwd() {
         System.out.println("请输入你要修改的密码：");
         Scanner input=new Scanner(System.in);
@@ -72,8 +78,10 @@ public class ManagerView {
             System.out.println("修改失败！");
     }
 
-
-    private void findUsername(){//欢迎
+    /**
+     * 欢迎界面
+     */
+    private void findUsername(){
         try {
             String name=userService.findUsername(manager_id);
             System.out.println("**********************欢迎"+name+"进入管理员系统**********************");

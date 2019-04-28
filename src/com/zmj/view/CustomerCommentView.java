@@ -9,6 +9,9 @@ import com.zmj.util.InputUtil;
 
 import java.util.Scanner;
 
+/**
+ * 评论界面
+ */
 public class CustomerCommentView {
     private MovieService movieService;
     private CommentService commentService;
@@ -44,6 +47,10 @@ public class CustomerCommentView {
 
     }
 
+    /**
+     * 写影评
+     * @param user_id
+     */
     private void takeComment(int user_id) {
 
         try {
@@ -70,7 +77,10 @@ public class CustomerCommentView {
 
     }
 
-    private void findComment() {//查找到评论
+    /**
+     * 查找影评
+     */
+    private void findComment() {
         try {
             managerMovieView.findAllMovie();
             Scanner input=new Scanner(System.in);
