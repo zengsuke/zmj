@@ -47,6 +47,9 @@ public class MainView {
         }
     }
 
+    /**
+     * 忘记密码
+     */
     private void lossing() {
         Scanner input = new Scanner(System.in);
         System.out.println("请输入你的账号：");
@@ -95,7 +98,7 @@ public class MainView {
 
     }
 
-    public void intoCinema(int id) {
+    private void intoCinema(int id) {
         try {
             if (userService.choiceType(id) == 0) {
                 ManagerView managerView = new ManagerView();
