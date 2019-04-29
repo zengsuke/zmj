@@ -19,7 +19,7 @@ public class CommentServiceImpl implements com.zmj.service.CommentService {
     }
 
     @Override
-    public boolean insertComment(Comment comment) {
+    public boolean insertComment(Comment comment){
         return commentDao.insertComment(comment);
     }
 }

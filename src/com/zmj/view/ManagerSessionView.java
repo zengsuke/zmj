@@ -36,19 +36,16 @@ public class ManagerSessionView {
         AllSession();
         Scanner input = new Scanner(System.in);
         while (true) {
-            System.out.println("请输入你的选择：1、增加场次2、删除场次3、修改场次4、查看场次0、返回");
+            System.out.println("请输入你的选择：1、增加场次2、修改场次3、查看场次0、返回");
             int choice = InputUtil.getInputByInt(input);
             switch (choice) {
                 case 1:
                     addSession();
                     break;
                 case 2:
-                    deleteSession();
-                    break;
-                case 3:
                     updateSession();
                     break;
-                case 4:
+                case 3:
                     AllSession();
                     break;
                 case 0:
@@ -86,34 +83,6 @@ public class ManagerSessionView {
                 e.printStackTrace();
             }
             break;
-        }
-    }
-
-    /**
-     * 删除场次
-     */
-    private void deleteSession() {
-        AllSession();
-        Scanner input = new Scanner(System.in);
-        while (true) {
-            System.out.println("请输入你的选择：1、删除所有的场次2、删除个别场次0、返回");
-            int choice = InputUtil.getInputByInt(input);
-            switch (choice) {
-                case 1:
-                    sessionService.deleteAllSession();
-                    break;
-                case 2:
-                    AllSession();
-                    System.out.println("请输入你要删除的场次编号：");
-                    sessionService.deleteSessionById(InputUtil.getInputByInt(input));
-                    break;
-                case 0:
-                    return;
-                default:
-                    System.out.println("输入有误请重新输入！");
-                    input.nextLine();
-                    break;
-            }
         }
     }
 

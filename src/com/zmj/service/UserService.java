@@ -14,4 +14,6 @@ public interface UserService {
     String findUsername(int id) throws Exception;
 
     User finduserById(int user_id) throws Exception;
+
+    User findUser(int user_id, String name) throws Exception;
 }

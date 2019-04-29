@@ -10,10 +10,10 @@ public class TimeUtil {
     public static Date compareSystemTime() {//与系统时间进行比较
         while (true) {
             try {
-                Scanner input = new Scanner(System.in);
+                Scanner input;
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
                 System.out.println("请输入开始时间：(1997-05-05 00:00:00进行输入)");
-                Date datebegin = null;
+                Date datebegin;
                 input = new Scanner(System.in);
                 String begintime = InputUtil.getInputByTime(input);
                 datebegin = df.parse(begintime);

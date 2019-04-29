@@ -76,4 +76,18 @@ public class UserDaoImpl implements UserDao {
         Class<User> cls=User.class;
         return BaseDao.executeAll(sql,cls);
     }
+
+    @Override
+    public User findUserByNI(int user_id, String name) throws Exception {
+        String sql="select * from dvd_user where user_id=?  and user_name=?";
+        List<Object> list = new ArrayList<>();
+        list.add(user_id);
+        list.add(name);
+        Class<User> cls=User.class;
+        List<User> users=BaseDao.executeQuery(sql,cls,list);
+        if(users.size()!=0){
+            return users.get(0);
+        }else
+            return null;
+    }
 }

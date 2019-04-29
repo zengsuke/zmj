@@ -173,7 +173,7 @@ public class CustomerView {
      * 修改密码
      */
     private void updatepwd() {
-        System.out.println("请输入你要修改的密码：");
+        System.out.println("请输入你要修改的新密码：");
         Scanner input = new Scanner(System.in);
         String pwd = InputUtil.getInputByString(input);
         if (userService.updatePwd(user_id, pwd)) {

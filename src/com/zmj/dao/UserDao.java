@@ -11,4 +11,6 @@ public interface UserDao {
     User findUserById(int id) throws Exception;//通过id查找用户
     boolean updatePwd(int id,String pwd);//修改密码
     List<User> findAll();//查找所有用户
+
+    User findUserByNI(int user_id, String name) throws Exception;
 }
