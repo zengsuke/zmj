@@ -16,4 +16,6 @@ public interface UserService {
     User finduserById(int user_id) throws Exception;
 
     User findUser(int user_id, String name) throws Exception;
+
+    boolean updateUser(double money, int user_id);
 }

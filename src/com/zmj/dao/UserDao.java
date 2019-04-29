@@ -13,4 +13,6 @@ public interface UserDao {
     List<User> findAll();//查找所有用户
 
     User findUserByNI(int user_id, String name) throws Exception;
+
+    boolean updateUser(double money, int user_id);
 }

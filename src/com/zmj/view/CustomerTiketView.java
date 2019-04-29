@@ -18,6 +18,7 @@ public class CustomerTiketView {
     private HallService hallService;
     private CardService cardService;
     private BoxOfficeService boxOfficeService;
+    private UserService userService;
     private int lottery_id;//抽奖
     private int[][] number;//座位
     private List<Ticket> tickets;//已购的位置
@@ -29,6 +30,7 @@ public class CustomerTiketView {
         movieService = new MovieServiceImpl();
         hallService = new HallServiceImpl();
         cardService = new CardServiceImpl();
+        userService = new UserServiceImpl();
         boxOfficeService = new BoxOfficeServiceImpl();
         this.lottery_id = lottery_id;
     }
@@ -136,33 +138,41 @@ public class CustomerTiketView {
 
                 } else
                     System.out.println("此账户没有办理影城卡");
-            } else {//支付宝购买
-                ticketService.addTicket(ticket);
-                Session session = sessionService.findSeatById(ticket.getSession_id()).get(0);
-                double price = 0;
-                if (lottery_id == 1) {
-                    price = 0;//免单
+            } else {//余额购买
+                if (userService.finduserById(user_id) == null) {
+                    System.out.println("内部出现错误！");
                 } else {
-                    price = session.getMovie_price() * 0.6;
-                }
-                System.out.println("此次消费：" + price + "元");
-                lottery_id = 0;//清空一次免单机会
-                movieService.addTicket(session.getMovie_id());
-                sessionService.reduceTicket(ticket.getSession_id());
-                Movie movie = movieService.findMovieById(session.getMovie_id());
-                if (boxOfficeService.findOfficeByMid(session.getMovie_id())) {//查找效益中是否有此电影
-                    if (boxOfficeService.updateOffice(session.getMovie_id(), 1, session.getMovie_price())) {
-                        System.out.println();
-                    } else
-                        System.out.println("后台系统出错，为将价格加入效益表中！");
-                } else {//没有就进行添加
-                    if (boxOfficeService.insertOffice(movie.getMovie_id(), 1, session.getMovie_price())) {
-                        System.out.println();
-                    } else
-                        System.out.println("后台系统出错，为将此次效益加入效益表中！");
+                    if (userService.finduserById(user_id).getUser_money() - ticket.getTicket_price() < 0) {
+                        System.out.println("账户余额不足，请充值！");
+                    } else {
+                        ticketService.addTicket(ticket);
+                        Session session = sessionService.findSeatById(ticket.getSession_id()).get(0);
+                        double price = 0;
+                        if (lottery_id == 1) {
+                            price = 0;//免单
+                        } else {
+                            price = ticket.getTicket_price();
+                        }
+                        System.out.println("此次消费：" + price + "元");
+                        lottery_id = 0;//清空一次免单机会
+                        movieService.addTicket(session.getMovie_id());
+                        sessionService.reduceTicket(ticket.getSession_id());
+                        userService.updateUser(userService.finduserById(user_id).getUser_money() - price,user_id);
+                        Movie movie = movieService.findMovieById(session.getMovie_id());
+                        if (boxOfficeService.findOfficeByMid(session.getMovie_id())) {//查找效益中是否有此电影
+                            if (boxOfficeService.updateOffice(session.getMovie_id(), 1, session.getMovie_price())) {
+                                System.out.println();
+                            } else
+                                System.out.println("后台系统出错，为将价格加入效益表中！");
+                        } else {//没有就进行添加
+                            if (boxOfficeService.insertOffice(movie.getMovie_id(), 1, session.getMovie_price())) {
+                                System.out.println();
+                            } else
+                                System.out.println("后台系统出错，为将此次效益加入效益表中！");
+                        }
+                    }
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

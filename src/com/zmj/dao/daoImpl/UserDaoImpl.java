@@ -37,11 +37,12 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean insertUser(User user) {//注册
-        String sql="insert into dvd_user(user_name,user_type,user_pwd)values(?,?,?)";
+        String sql="insert into dvd_user(user_name,user_type,user_pwd,user_money)values(?,?,?,?)";
         List<Object> list=new ArrayList<>();
         list.add(user.getUser_name());
         list.add(1);
         list.add(user.getUser_pwd());
+        list.add(0);
         return BaseDao.excuteUpdate(sql,list);
     }
 
@@ -89,5 +90,17 @@ public class UserDaoImpl implements UserDao {
             return users.get(0);
         }else
             return null;
+    }
+
+    @Override
+    public boolean updateUser(double money, int user_id) {
+        String sql="update dvd_user set user_money=? where user_id=?";
+        List<Object> list=new ArrayList<>();
+        list.add(money);
+        list.add(user_id);
+        if(BaseDao.excuteUpdate(sql,list)){
+            return true;
+        }else
+            return false;
     }
 }

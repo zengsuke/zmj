@@ -96,6 +96,7 @@ public class MainView {
             e.printStackTrace();
         }
 
+
     }
 
     private void intoCinema(int id) {

@@ -58,4 +58,9 @@ public class UserServiceImpl implements UserService {
     public User findUser(int user_id, String name) throws Exception {
         return userDao.findUserByNI(user_id,name);
     }
+
+    @Override
+    public boolean updateUser(double money, int user_id) {
+        return userDao.updateUser(money,user_id);
+    }
 }

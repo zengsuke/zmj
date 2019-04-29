@@ -84,7 +84,7 @@ public class ManagerView {
     private void findUsername(){
         try {
             String name=userService.findUsername(manager_id);
-            System.out.println("**********************欢迎"+name+"进入管理员系统**********************");
+            System.out.println("**********************欢迎【..."+name+"...】进入管理员系统**********************");
         } catch (Exception e) {
             e.printStackTrace();
         }

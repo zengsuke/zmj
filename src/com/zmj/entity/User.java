@@ -7,6 +7,7 @@ public class User {
     private String user_name;
     private int user_type;
     private String user_pwd;
+    private double user_money;
 
     public User() {
     }
@@ -50,12 +51,21 @@ public class User {
         this.user_pwd = user_pwd;
     }
 
+    public double getUser_money() {
+        return user_money;
+    }
+
+    public void setUser_money(double user_money) {
+        this.user_money = user_money;
+    }
+
     @Override
     public String toString() {
         return "用户【" +
                 "用户id=" + user_id +
                 ", 用户姓名=" + user_name +
                 ", 用户密码=" + user_pwd +
-                '】';
+                ", 用户余额="+user_money+
+                "】";
     }
 }

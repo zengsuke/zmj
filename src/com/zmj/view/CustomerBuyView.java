@@ -4,10 +4,7 @@ import com.zmj.entity.Cinema;
 import com.zmj.entity.Movie;
 import com.zmj.entity.Session;
 import com.zmj.entity.Ticket;
-import com.zmj.service.CinemaService;
-import com.zmj.service.MovieService;
-import com.zmj.service.SessionService;
-import com.zmj.service.TicketService;
+import com.zmj.service.*;
 import com.zmj.service.serviceImpl.*;
 import com.zmj.util.InputUtil;
 
@@ -20,7 +17,10 @@ public class CustomerBuyView {
     private SessionService sessionService;
     private CustomerTiketView customerTiketView;
     private TicketService ticketService;
-    private int lottery_id=0;
+    private UserService userService;
+    private CardService cardService;
+    private int lottery_id = 0;
+    private int lottery = 0;
 
     public int getLottery_id() {
         return lottery_id;
@@ -34,7 +34,9 @@ public class CustomerBuyView {
         cinemaService = new CinemaServiceImpl();
         movieService = new MovieServiceImpl();
         sessionService = new SessionServiceImpl();
-        ticketService=new TicketServiceImpl();
+        ticketService = new TicketServiceImpl();
+        userService = new UserServiceImpl();
+        cardService = new CardServiceImpl();
     }
 
     /**
@@ -43,13 +45,13 @@ public class CustomerBuyView {
     public void buy() {
         while (true) {
             System.out.println("请输入你的选择：");
-            System.out.println("1、选择电影 2、查看热门电影 3、推荐电影 4、抽奖免单 5、搜索电影 0、返回");
+            System.out.println("1、选择电影 2、查看热门电影 3、推荐电影 4、抽奖 5、搜索电影 0、返回");
             Scanner input = new Scanner(System.in);
             int choice = InputUtil.getInputByInt(input);
             switch (choice) {
                 case 1:
                     choiceMovie();//选择电影
-                    lottery_id=0;//清空一次免单机会
+                    lottery_id = 0;//清空一次免单机会
                     break;
                 case 2:
                     hotMovie();//前三
@@ -77,12 +79,12 @@ public class CustomerBuyView {
      */
     private void findMovie() {
         System.out.println("请输入你要查询的电影名字：");
-        Scanner input=new Scanner(System.in);
-        String name=InputUtil.getInputByString(input);
+        Scanner input = new Scanner(System.in);
+        String name = InputUtil.getInputByString(input);
         try {
-            if(movieService.findMovieByName(name)!=null){
-                System.out.println("此电影基本信息如下：\n"+movieService.findMovieByName(name));
-            }else
+            if (movieService.findMovieByName(name) != null) {
+                System.out.println("此电影基本信息如下：\n" + movieService.findMovieByName(name));
+            } else
                 System.out.println("此电影目前还会上线，敬请期待！");
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,15 +95,43 @@ public class CustomerBuyView {
      * 抽奖
      */
     private void lottery() {//抽奖
-        if(lottery_id==1){
+        if (lottery == 1) {
             System.out.println("您已中过一次奖，下次光临~！");
-        }else {
-            Random random=new Random();
-            int i=random.nextInt(10);
-            if(i==5){
+        } else {
+            System.out.println("您有机会抽中以下奖品：(1、100现金 2、200影城卡充值  3、免单一次)\n");
+            Random random = new Random();
+            int i = random.nextInt(20);
+            if (i == 5) {
                 System.out.println("恭喜你抽取到一次免单机会!");
                 setLottery_id(1);//抽中
-            }else{
+                lottery = 1;
+            } else if (i == 20) {
+                System.out.println("恭喜你获得一百现金，请到个人余额里查看是否到账！");
+                try {
+                    if (userService.finduserById(user_id) == null) {
+                        System.out.println("抽奖内部出现错误1");
+                    } else {
+                        double price = userService.finduserById(user_id).getUser_money() + 100;
+                        userService.updateUser(price, user_id);
+                        lottery = 1;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (i == 15) {
+                System.out.println("恭喜你获得200影城卡充值，请到影城卡余额里查看是否到账！");
+                try {
+                    if (cardService.findCardById(user_id) == null) {
+                        System.out.println("抽奖内部出现错误1");
+                    } else {
+                        double price = cardService.findCardById(user_id).get(0).getUser_money() + 200;
+                        cardService.updateCardById(price, user_id);
+                        lottery = 1;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
                 System.out.println("您未抽中，谢谢光临。");
                 setLottery_id(0);//未抽中
             }
@@ -113,20 +143,20 @@ public class CustomerBuyView {
      */
     private void guessMovie() {
         try {
-            List<Ticket> tickets=ticketService.findTicketByUid(user_id);
-            int[] type=new int[tickets.size()];
-            for (int i = 0; i <tickets.size(); i++) {
-                type[i]=tickets.get(i).getTicket_type();
+            List<Ticket> tickets = ticketService.findTicketByUid(user_id);
+            int[] type = new int[tickets.size()];
+            for (int i = 0; i < tickets.size(); i++) {
+                type[i] = tickets.get(i).getTicket_type();
             }
-            Random random=new Random();
-            if(type.length !=0) {
+            Random random = new Random();
+            if (type.length != 0) {
                 int i = random.nextInt(type.length);//随机抽取种类
                 List<Movie> movies = movieService.findMovieByType(type[i]);
                 System.out.println("可能喜欢的电影类型：");
                 for (Movie m : movies) {
                     System.out.println(m);
                 }
-            }else {
+            } else {
                 System.out.println("您还未购票，无法推荐~");
             }
 
@@ -145,7 +175,7 @@ public class CustomerBuyView {
         int mid = InputUtil.getInputByInt(input);
         try {
             if (movieService.findMovieById(mid) != null) {
-                if(findSession(mid)){
+                if (findSession(mid)) {
                     sessionService.deleteSessionByTime();
                     System.out.println("请输入你想要去的电影院编号：");//cinema
                     Cinema cinema = new Cinema();
@@ -154,7 +184,7 @@ public class CustomerBuyView {
                     cinema.setCinema_id(cinema_id);
                     try {
                         if (cinemaService.findCinemaById(cinema) != null) {
-                            choiceHall(cinema_id,mid);
+                            choiceHall(cinema_id, mid);
                         } else
                             System.out.println("没有此编号的电影院，请重新选择！");
                     } catch (Exception e) {
@@ -170,23 +200,24 @@ public class CustomerBuyView {
 
     /**
      * 查找到场次
+     *
      * @param mid
      * @return
      */
     private boolean findSession(int mid) {
         try {
-            if(sessionService.findSessionBymovieid(mid).size()>0){
+            if (sessionService.findSessionBymovieid(mid).size() > 0) {
                 System.out.println("现有电影院在播放的有：");
-                for (Session s:sessionService.findSessionBymovieid(mid)) {
-                    String movie_name=movieService.findMovieById(s.getMovie_id()).getMovie_name();
-                    Cinema cinema=new Cinema();
+                for (Session s : sessionService.findSessionBymovieid(mid)) {
+                    String movie_name = movieService.findMovieById(s.getMovie_id()).getMovie_name();
+                    Cinema cinema = new Cinema();
                     cinema.setCinema_id(s.getCinema_id());
-                    String cinema_name=cinemaService.findCinemaById(cinema).getCinema_name();
-                    System.out.println("【电影名="+movie_name+", 电影院id="+s.getCinema_id()+",电影院名="+cinema_name
-                            +", 场厅id="+s.getHall_id()+", 票价="+s.getMovie_price()+"】");
+                    String cinema_name = cinemaService.findCinemaById(cinema).getCinema_name();
+                    System.out.println("【电影名=" + movie_name + ", 电影院id=" + s.getCinema_id() + ",电影院名=" + cinema_name
+                            + ", 场厅id=" + s.getHall_id() + ", 票价=" + s.getMovie_price() + "】");
                 }
                 return true;
-            }else{
+            } else {
                 System.out.println("目前此电影还未安排场次！");
                 return false;
             }
@@ -198,25 +229,26 @@ public class CustomerBuyView {
 
     /**
      * 选择场次
+     *
      * @param cid
      * @param mid
      */
     private void choiceHall(int cid, int mid) {
         try {
-            if(sessionService.findSessionByIdMid(cid,mid).size()>0){
+            if (sessionService.findSessionByIdMid(cid, mid).size() > 0) {
                 System.out.println("你选择场次是：");
-                for (Session s:sessionService.findSessionByIdMid(cid,mid)) {
+                for (Session s : sessionService.findSessionByIdMid(cid, mid)) {
                     System.out.println(s);
                 }
                 System.out.println("请选择你想要的场次编号：");
-                Scanner input=new Scanner(System.in);
-                int sid=InputUtil.getInputByInt(input);
-                if(sessionService.findSessionById(sid)){
-                    customerTiketView=new CustomerTiketView(lottery_id);
+                Scanner input = new Scanner(System.in);
+                int sid = InputUtil.getInputByInt(input);
+                if (sessionService.findSessionById(sid)) {
+                    customerTiketView = new CustomerTiketView(lottery_id);
                     customerTiketView.TicketCome(sid);
-                }else
+                } else
                     System.out.println("此场次相关内容不存在！");
-            }else
+            } else
                 System.out.println("此电影院没有安排此电影的场次！");
         } catch (Exception e) {
             e.printStackTrace();
@@ -266,12 +298,12 @@ public class CustomerBuyView {
                     return o2.getMovie_count() - o1.getMovie_count();//降序
                 }
             });
-            if (movies.size()<=3){
-                for (int i = 0; i <movies.size(); i++) {
+            if (movies.size() <= 3) {
+                for (int i = 0; i < movies.size(); i++) {
                     System.out.println(movies.get(i).toString());
                 }
-            }else {
-                for (int i = 0; i <3; i++) {
+            } else {
+                for (int i = 0; i < 3; i++) {
                     System.out.println(movies.get(i).toString());
                 }
             }
